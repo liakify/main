@@ -1,20 +1,44 @@
+/*
+ *  This CSS stylesheet contains all styles that are dynamically applied to
+ *  JavaFX elements depending on the app state.
+ *
+ *  Class selectors are chained in the following CSS rules to increase rule
+ *  specificity and avoid the use of !important (which is considered a bad
+ *  styling practice in web development).
+ */
 
-.error {
-    -fx-text-fill: #d06651 !important; /* The error class should always override the default text-fill style */
+.error.error.error {
+    /* Chain class to sufficiently high specificity to avoid using !important */
+    /* The error class should always override the default text-fill style */
+    -fx-text-fill: #ff2222;
 }
 
-.list-cell:empty {
-    /* Empty cells will not have alternating colours */
-    -fx-background: #383838;
+.deleted-label.deleted-label.deleted-label {
+    -fx-text-fill: #b0b0b0;
 }
 
-.tag-selector {
-    -fx-border-width: 1;
-    -fx-border-color: white;
-    -fx-border-radius: 3;
-    -fx-background-radius: 3;
+.expense-card-pane.settlement-card.settlement-card.settlement-card {
+    -fx-border-color: dimgray;
+    -fx-border-radius: 2px;
 }
 
-.tooltip-text {
-    -fx-text-fill: white;
+.expense-card .expense-sharing-list .settlement-recipient-tag.settlement-recipient-tag {
+    -fx-background-color: indigo;
+}
+
+.expense-card .deleted-tags.deleted-tags.deleted-tags .label {
+    -fx-background-color: #c0c0c0;
+    -fx-text-fill: #909090;
+}
+
+.activity-owed.activity-owed.activity-owed {
+    -fx-text-fill: darkgreen;
+}
+
+.activity-owing.activity-owing.activity-owing {
+    -fx-text-fill: maroon;
+}
+
+.activity-history-card .activity-neutral.activity-neutral.activity-neutral {
+    -fx-font-size: 13px;
 }

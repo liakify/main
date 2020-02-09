@@ -20,22 +20,26 @@ By: `Vortex`      Since: `Sep 2019`      Licence: `MIT`
 
 Ever did group activities where everyone paid different amounts, and it became so troublesome and confusing to figure out how to redistribute costs evenly? Fret no more because with *SplitWiser* is here! *SplitWiser* is a free tool for friends and roommates to track bills and other shared expenses, so that everyone gets paid back, and everyone is happy.
 
+image::./Ui.png[width="600"]
+
+As part of the v2.0 release, *SplitWiser* will also launch with a mobile version for Android and iOS devices, allowing seamless integration across all your computing devices.
+
+image::./minified-mockups/main.png[width="251"]
+
 == Getting Started
 
 .  Ensure you have link:https://java.com/en/download/[Java 11] or above installed in your Computer.
 .  Download the latest `SplitWiser.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for SplitWiser.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
-+
-image::minified-mockups/main.png[width="251"]
-+
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  Some example commands you can try:
 
-* *`list c/`* : displays list of all contacts
-* **`contact`**`n/John Doe hp/98765432` : adds a new contact named `John Doe` with mobile number `98765432` to SplitWiser.
-* **`delete`**`3` : deletes the 3rd contact shown in the current list
+* *`list c/`* : displays a list of all your contacts
+* **`contact`**`n/John Doe p/98765432` : adds a new contact named `John Doe` with mobile number `98765432` to SplitWiser.
+* *`list a/`* : displays a list of all tracked activities
+* *`view a/1`* : view details of the 1st activity shown in the list of activities
 * *`exit`* : exits and closes the app
 
 .  Refer to <<Commands>> for details of each command.
@@ -47,151 +51,322 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 SplitWiser data is saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually - you don't have to worry about forgetting to save!
 
-=== Persistent app state
+=== Simplify debts automatically
+
+SplitWiser has a fast and effective algorithm to simplify all debts that you add.
+It handles huge groups (hundreds!) and all their expenses with ease!
+No need receipt-collecting and number-crunching anymore -- SplitWiser does it all, and more!
+
+=== Persistent app state (*v2.0 only*)
 
 SplitWiser also saves its application state with your data - meaning you can re-launch the app and continue where you left off!
+
+// tag::limitations[]
+== Limitations
+
+=== Application window size
+
+For improved compatibility across different operating systems, the application window size is locked and not resizable by the user.
+
+=== Floating-point rounding
+
+Amounts smaller than $0.01 are not displayed to full precision. Instead, SplitWiser indicates that the amount is <$0.01.
+
+// end::limitations[]
 
 [[Commands]]
 == Commands
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `contact n/CONTACT_NAME`, `CONTACT_NAME` is a parameter which can be used as `add n/John Doe`.
-* Parameters in square brackets are optional e.g `n/ACTIVITY_NAME [p/PERSON_1]` can be used as `n/Drinks p/John Doe` or as `n/Drinks`.
-* Parameters with `…`​ may be supplied multiple times, including 0 times for optional parameters, e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-* Parameters in brackets must be supplied together - e.g. addition of expenses to an activity requires contact-expense pairs `(n/CONTACT_NAME && e/EXPENSE_AMT)`, which may be used as `p/John Doe e/50.25`
-* Parameters may be supplied in any order e.g. if the command specifies `n/NAME hp/PHONE_NUMBER`, `hp/PHONE_NUMBER n/NAME` is also acceptable.
+* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `contact n/CONTACT_NAME`, `CONTACT_NAME` is a parameter which can be used as `contact n/John Doe`.
+* Successive parameters are separated by one or more spaces.
+* Parameters in square brackets are optional, e.g `n/ACTIVITY_NAME [p/PERSON_1]` can be used as `n/Drinks p/John Doe` or as `n/Drinks`.
+* Parameters with `…`​ may be supplied multiple times, including 0 times for optional parameters, e.g. `[tag/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `tag/friend`, `tag/friend tag/family` etc.
+* Parameters may be supplied in any order unless specified otherwise, e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
 
+// tag::guicommands[]
 === Viewing help : `help`
 Brings up the help dialog. +
 
 Format: `help`
 
-=== Show main screen : `main`
-Brings up the main screen which shows the aggregated amounts of debt. +
-
-Format: `main`
-
 === List all contacts or activities : `list`
 
-Switches the current view to list all contacts or activities. +
+Switches the current view to list either all contacts or activities. +
+
+The following screenshot displays the appearance of the list of contacts and activities respectively.
+
+image::../images/ListComparison.png[width="600"]
+
+****
+* Argument values supplied with parameters are ignored for this command.
+****
 
 Format: `list c/` for contacts *OR* `list a/` for activities
 
 === View a contact or activity : `view`
 
-Switches the current view to show details of a contact or activity based on their ID. +
+Switches the current view to show details of a contact or activity based on their display index in the current/last viewed list. +
+
+The following screenshot displays the details panel for a contact and activity respectively.
+
+image::../images/ViewComparison.png[width="600"]
 
 Format: `view a/ACTIVITY_ID` *OR* `view c/CONTACT_ID` +
 
 Examples:
 
 * `view a/1` +
-Views the activity with ID 1, e.g. Chalet
+Views the details of the first activity, if the activity list was last displaying one or more activities
 * `view c/2` +
-views the contact with ID 2, e.g. John Smith
+Views the details of the second contact, if the contact list was last displaying at least two contacts
+// end::guicommands[]
 
 === Create new contact: `contact`
 
-Creates a new contact with a name and phone number. Each contact will be assigned a contact ID automatically. +
+Creates a new contact with a name and phone number. Each contact will be assigned a contact ID automatically. Optionally, an email, home address and tag(s) can also be specified. +
 
 ****
+* Name and phone numbers are compulsory fields.
 * Each contact must have a unique name.
+* Names are limited to 40 alphanumeric characters.
+* Phone numbers must be between 3 to 20 digits long.
 ****
 
-Format: `contact n/CONTACT_NAME hp/PHONE_NUMBER`
+Format: `contact n/CONTACT_NAME p/PHONE_NUMBER [e/EMAIL] [tag/TAG] [a/ADDRESS]`
 
 Examples:
 
-* `contact n/John Doe hp/98765432` +
+* `contact n/John Doe p/98765432` +
 Creates a new contact with name John Doe and mobile number 98765432.
 
+// tag::create_activity[]
 === Create new activity: `activity`
 
-Creates a new activity with a title, contacts (optional) and no expenses.
-
-The user creating the activity will be included automatically, and additional contacts can be specified - any contacts not found in the list of contacts will prompt the user to create them. Changes the current view to this activity (as if `view a/ACTIVITY_ID` was called).
-
-Each activity will be assigned an activity ID automatically. +
+This command creates a new activity with a title, contacts (optional) and no expenses.
+****
+* Additional contacts can be added to the activity by using `p/` prefix.
+** Initially, the application will search for contact with exact matching name.
+** If no exact match is found, keyword matching is used instead. Refer to <<Finding contacts or activities: `find`>> for more details.
+** For a contact to be successfully added, given keywords must have exact 1 matching contact. Otherwise, the activity will be created without adding the contact suggested by the keywords, and warning message will be shown.
+* Changes the current view to this activity (as if `view a/ACTIVITY_ID` was called).
+****
 
 Format: `activity t/ACTIVITY_TITLE [p/PERSON ...]`
 
-Examples:
+Example:
 
-* `activity n/Chalet p/John Doe` +
-Creates a new activity with title 'Chalet' and the user and John Doe as participants.
+Suppose that you went for a breakfast with David and Alexa, and want to create an activity for it.
 
-=== Add contacts to an activity: `invite`
+*Step 1*: Type in the following command into the command box, and press Enter to execute it.
 
-Adds a contact to the currently viewed activity. Multiple contacts can be added at once.
+`activity t/Breakfast p/David p/Alexa`
+
+image::CreateActivityStep1.png[]
+
+*Step 2*: Observe the output to check if it was successful, and if there are any warnings. Check the bottom display window for details of the newly created activity. In this case, because there is no contact called "Alexa", it is not added to the activity and a warning message is shown.
+
+image::CreateActivityStep2.png[]
+
+NOTE: If none of the search terms are valid, an activity will still be created, without any participants. +
+
+// end::create_activity[]
+
+// tag::invite[]
+=== Inviting contacts to an activity: `invite`
+This command invites the contacts specified to the current viewed activity.
 
 Format: `invite p/PERSON ...`
 
-Examples:
+Example: +
+Suppose you have already created an activity with Alice, Bob and Carl in it. +
+`activity t/Holiday Trip p/Alice p/Bob p/Carl`
 
-* `invite p/John Doe p/Mary` +
-Adds both John Doe and Mary to the current activity.
+And you have friends that want to join an activity midway.
 
-=== Remove contacts from an activity: `disinvite`
+To invite:
 
-Removes a contact from the currently viewed activity. Multiple contacts can be removed at once. If a contact is involved in an expense, he/she cannot be removed.
+*Step 1*: Type `invite` into the command box and specify the contacts you want to invite from the contact list with the `p/` prefix e.g. `invite p/Mary p/John p/Carl` and press `Enter` to execute it.
+
+image::../images/InviteCommand.png[]
+
+*Step 2*: Observe the output in result box and the activity details box.
+
+image::InviteOutput.png[]
+
+NOTE: *The `invite` command only invites to current viewed activity.* +
+if there is no current viewed activity, there will be an error. +
+ +
+*The `invite` command only invites contact that exists in the contact list.* +
+If the specified contact does not exist in the contact list, then the contact cannot be added and a warning message will be shown. +
+ +
+*Multiple contacts can be invited at once.* +
+ +
+*Contact that already exists in activity cannot be invited again.*
+// end::invite[]
+
+// tag::disinvite[]
+=== Disinviting contacts from an activity: `disinvite`
+This command disinvites the contacts specified from the current viewed activity.
 
 Format: `disinvite p/PERSON ...`
 
-Examples:
+Example: +
+Suppose you have an activity with the same participants but with an expense shared by Alice, Bob and Carl
 
-* `disinvite p/John Doe p/Mary` +
-Removes John Doe and Mary from the current activity. If any one of them are involved in expenses, none of them will be removed.
+image::DisinviteExample.png[]
 
+And you feel that the activity has too many participants that do not participate in any event, thus having no shared expense and you decided to remove them.
+
+To disinvite:
+
+*Step 1*: Type `disinvite` into the command box and specify the contacts you want to disinvite from the activity with the `p/` prefix e.g. `disinvite p/Mary p/John p/Carl` and press `Enter` to execute it.
+
+image::DisinviteCommand.png[]
+
+*Step 2*: Observe the output in result box and the activity details box.
+
+image::DisinviteOutput.png[]
+
+NOTE: *The `disinvite` command only disinvites from current viewed activity.* +
+if there is no current viewed activity, there will be an error. +
+ +
+*The `disinvite` command only disinvites contact that exists in the activity.* +
+If the specified contact does not exist in the activity, then a warning message will be shown. +
+ +
+*Multiple contacts can be disinvited at once.* +
+ +
+*Contact that involves in any expense cannot be disinvited.* +
+If a contact is involved in any expense, he cannot be disinvited.
+// end::disinvite[]
+
+// tag::expense[]
 === Add expenses to an activity : `expense`
 
-Creates a new expense with a contact, amount and optional description, and adds it to the currently viewed activity.
+This command creates a new expense with a list of contacts, an amount and an optional description, and adds it to the currently viewed activity. The first contact in the list is taken to be the person who paid for the expense, and the remaining people will be counted as owing the first person money. Any duplicated person will be ignored. +
 
-If no activity is being viewed, the description is compulsory - a new activity will instead be created with the same title as the description (as if `activity n/ACTIVITY_NAME` was called). The expense and contact will then be added to the activity. +
+If only one contact is specified in the list, then SplitWiser will assume that all current participants in the activity are involved in this expense and thus owe this person money. +
 
-Multiple expenses can be added at once. If a description is provided, all created expenses will share the same description.
+If no activity is being viewed, the description is compulsory - a new activity will instead be created with the same title as the description (as if `activity t/ACTIVITY_NAME` was called). The expense and contact(s) will then be added to the activity. You may wish to change the title of this new activity using the `edit` command thereafter (refer to <<Edit an existing contact or activity : `edit`>>). +
 
-Format: `expense (p/PERSON e/AMOUNT_PAID) ... [d/DESCRIPTION]`
+Format: `expense p/PERSON e/AMOUNT_PAID [p/PERSON ...] [d/DESCRIPTION]`
 
 ****
-* At least one expense must be provided.
-* Expenses must be entered in pairs of `p/PERSON` followed by `e/AMOUNT_PAID`
+* Exactly one expense amount must be provided.
+* The allowable expense amount for any single expense must range from $0.01 to $1,000,000 when rounded to 2 decimal places.
 ****
 
 Examples:
 
-* `expense p/John Doe e/100` +
-Adds a single expense of $100 by John Doe to the currently viewed activity. If John Doe is not in the current activity, no expense will be created.
-* `expense p/Mary e/100 p/Joseph e/40 d/Drinks` +
-Adds 2 expenses ($100 by Mary and $40 by Joseph), both named `Drinks`. If no activity is currently viewed, an activity titled `Drinks` will be created to contain the 2 expenses. Mary and Joseph will also be added to the activity.
+* `expense p/David Lim e/100` +
+Adds a single expense of $100 by David Lim to the currently viewed activity. If David is not in the current activity, an error will occur and no expense will be created. Otherwise, all existing participants of the activity will now owe David a portion of the $100 (left image). +
+If no activity is currently viewed, an error will occur as there is no description provided to use for automatic activity creation to contain this expense (right image):
 
+image::Expense1.png[]
+
+* `expense p/David e/100 p/Bernice p/Irfan d/Drinks` +
+Adds an expense of $100 to the currently viewed activity by David where Bernice and Irfan are involved i.e. Bernice and Irfan owe David a portion of the $100. This expense will be named `Drinks` (left image). If any one of the participants are not in the present activity, then an error will occur and no expense will be created. +
+Alternatively, if no activity is currently viewed, an activity titled `Drinks` will be created to contain this expense. David, Bernice and Irfan will then be added to the activity (right image):
+
+image::Expense2.png[]
+
+NOTE: It is in fact possible to add an expense where no one else is involved in by specifying that the people involved only include the person who is paying, +
+e.g. `expense p/John Doe e/15 p/John Doe d/Cab` +
+This adds an expense of $15 by John Doe called `Cab` where only John himself is involved, thus no one owes anyone anything. This can be used to add an expense simply for recording purposes if desired, though it is not an intended use case for SplitWiser since there is no debt to calculate and resolve.
+// end::expense[]
+
+// tag::settle[]
+=== Settle debts in an activity : `settle`
+
+Settles the debt between two people within the currently viewed activity.
+Specify two people, and optionally an amount `AMOUNT_PAID` to settle.
+
+There are two options available:
+
+* `AMOUNT_PAID` is not provided: then the command will automatically calculate the minumum needed to settle the debt and use that as the amount.
+* `AMOUNT_PAID` is provided: the command will use this amount.
+
+The first person specified `PERSON1` will pay `PERSON2`.
+
+`PERSON1` and `PERSON2` can be any part of the names of the activity participants you wish to target.
+Generally it is similar to how you would add an ordinary expense.
+If no match is found for any person provided, or if multiple matches are found, the command will do nothing as it is ambiguous.
+
+An entry will be added within the activity display so you can keep track of past payments.
+These entries will have a generic description tagged to them to make it clear what it is, and they will also be highlighted in a frame to distinguish them from ordinary expenses.
+
+Format: `expense p/PERSON1 e/AMOUNT_PAID p/PERSON2`
+
+****
+* You cannot settle wih an amount greater than what is needed.
+* For example, if Bob owes Alice $10, you cannot settle with Bob paying Alice $20.
+* Naturally this also means that in this case Alice paying Bob is not possible, since that would suggest paying a negative amount of money!
+****
+
+Example run:
+
+* Go to the activity you wish to modify with the `list a/` and `view` commands.
+You will see something like this:
+
+image:settle-view-activity.png[width="300"]
+
+* `settle p/alex p/david e/10` +
+Adds an settlement to the activity stating that Alex has paid David $10.
+If Alex owes less than $10 to David, the command will be rejected.
+In this case it is accepted since Alex owes about $20 or so to David.
+The two pictures below show what will happen before and after the command.
+Notice the new expense added, which is also conveniently highlighted.
+
+image:settle-enter-command.png[width="300"] image:settle-result.png[width="300"]
+
+* `expense p/charlotte p/li` +
+No amount to pay is provided, so it is assumed that Charlotte wants to pay David (Li) as much as is needed to clean their debt.
+This is what we see:
+
+image:settle-result-2.png[width="300"]
+
+// end::settle[]
+
+// tag::edit[]
 === Edit an existing contact or activity : `edit`
 
-Edits some details of the current contact or activity in view. +
+This command edits some details of the current contact or activity in view. Note that contact names must be unique, so if a specified name already exists in the address book, the edit will not be processed. +
 
-Format: `edit [n/NAME] [hp/PHONE] ...` for contacts OR `edit [t/ACTIVITY_TITLE] ...` for activities.
+Format: `edit [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [tag/TAG ...]` for contacts OR `edit [t/ACTIVITY_TITLE]` for activities.
 
 ****
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* Irrelevant parameters will be ignored. For example, `edit p/999 t/new title` when viewing an activity will only update the title to `new title`, and `p/999` will be ignored.
 * Expenses cannot be edited.
 ****
 
 Examples:
 
-* `edit hp/999` +
+* `edit p/999` +
 Edits the phone number of the current contact in view to `999`. No changes are made if a contact is not being viewed.
-* `edit t/BBQ` +
-Edits the title of the current activity in view to `BBQ`. No changes are made if an activity is not being viewed.
 
+image::Edit1.png[]
+
+* `edit t/Lunch` +
+Edits the title of the current activity in view to `Lunch`. No changes are made if an activity is not being viewed.
+
+image::Edit2.png[]
+// end::edit[]
+
+
+// tag::find[]
 === Finding contacts or activities: `find`
 
-Finds contacts or activities whose name or title respectively contain *any* of the given keywords.
+This command finds contacts or activities whose name or title respectively contain *any* of the given keywords.
 
 Format: `find KEYWORD ...`
 
 ****
+* Find command can only be used when viewing list of activities or contacts.
+* Find command will search for activities if used under list activity view. If used under list contact view, the find command will search for contacts.
 * The search is case insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name of contacts and title of activities are searched.
@@ -199,46 +374,84 @@ Format: `find KEYWORD ...`
 * Contacts and activities matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 ****
 
-Examples:
+Example:
 
-* `find John` +
-Returns contacts (e.g. `john` and `John Doe`) and activities (e.g. `John birthday party`).
-* `find Betsy Tim John` +
-Returns any contact or activity whose name or title contains the word `Betsy`, `Tim`, or `John`.
+Suppose that you want to find all the contacts that are called "John".
 
-=== Deleting a contact, activity or expense : `delete`
+*Step 1*: List all contacts in this app by typing in the following command into the command box, and press Enter.
 
-Deletes the specified index from the current list view. Delete can also be used to delete all entries by not specifying any index, but the user will be prompted to confirm this action.
+`list c/`
 
-If viewing a contact instead, the contact will be deleted.
+image::FindStep1.png[]
 
-If viewing an activity instead, it will delete an expense* by index. Not specifying any index will result in the current activity being deleted. +
+*Step 2*: Check that the result box shows the success message, and the bottom display box lists all contacts. This means that you are currently in the "list contact" context.
 
-Multiple entries can be deleted at once.
+image::FindStep2.png[]
 
-Format: `delete [INDEX] ...`
+*Step 3*: To find all contacts with "John", type in the following command into the command box, and press Enter.
 
-****
-* Deletes the entry at the specified `INDEX`.
-* The index refers to the index number shown in the displayed contact or activity or expense list.
-* The index *must be a positive integer* 1, 2, 3, ...
-* *Expenses cannot be completely deleted. It will instead be struck off (but still visible) in the activity view, and moved to the bottom of the list.
-****
+image::FindStep3.png[]
+
+*Step 4*: Check that the result box shows the success message and the number of matches found, and that the bottom display box shows all matching contacts.
+
+image::FindStep4.png[]
+
+NOTE: In order to search for activities, replace the command in step 1 with `list a/` in order to switch to "list activity" context. +
+// end::find[]
+
+// tag::delete[]
+=== Deleting a contact, activity or expense: `delete`
+
+Deletes the contact/activity/expense at the specified index from the current display. +
+
+Format: `delete INDEX`
+
+If current display is listing contacts e.g. `list c/`, the contact at that specified `INDEX` will be deleted if he/she is not involved in any activity.
+
+If current display is listing activities e.g. `list a/`, the activity at that specified `INDEX` will be deleted.
+
+If viewing an activity instead e.g. `view a/1`, it will soft-delete the expense* at that `INDEX`.
+
+If the current display is not any of the above displays mentioned, error will be thrown.
 
 Examples:
 
 * `delete 2` +
-If viewing the list of contacts, deletes the 2nd person by index. +
-If viewing a contact, deletes the contact. +
-If viewing the list of activities, deletes the 2nd activity by index. +
-If viewing an activity, strikes off (soft-deletes) the 2nd expense by index.
-* `find Betsy` +
-`delete 1` +
-Deletes the 1st entry (either a contact or activity) in the results of the `find` command.
+If viewing the list of contacts, deletes the 2nd person by index if he/she is not involved in any activity. +
 
+* `delete 1` +
+If viewing the list of activities, deletes the 1st activity by index. +
+
+* `delete 1` +
+If viewing a particular activity, fades (soft-deletes) the 1st expense by index.
+
+NOTE: *Deletes the entry at the specified `INDEX`.* +
+ +
+*The `INDEX` refers to the index number shown in the displayed list of contacts/activities/expenses.* +
+ +
+*The `INDEX` must be a positive integer 1, 2, 3, ...* +
+ +
+*Expenses cannot be completely deleted. It will instead be faded (but still visible) in the activity view.*
+
+// end::delete[]
+
+//tag::varexpense[]
+=== Add variable split expenses to an activity: `varexpense` (*v2.0 only*)
+
+Creates a new expense with a list of (contact, amount) pairs and an optional description, and adds it to the currently viewed activity. The very first (contact, amount) pair will represent the person paying and the amount paid. Every subsequent (contact, amount) pair will then represent the cost incurred by each person in this expense.
+
+Format: `varexpense p/PERSON e/AMOUNT [d/DESCRIPTION] [(p/PERSON e/AMOUNT) ...]`
+
+****
+* The first amount (i.e. the paid amount) must be greater than or equal to the sum of all subsequent amounts specified.
+* If the numbers do not add up to the paid amount, any excess value is taken to be incurred by the paying person.
+****
+//end::varexpense[]
+
+// tag::futurecommands[]
 === Assign an activity as a sub-activity: `assign` (*v2.0 only*)
 
-Assigns an activity as a sub-activity of the currently viewed activity. If no activity is currently being viewed, or an invalid activity ID is provided, no change is made.
+Assigns a specified activity by display index as a sub-activity of the currently viewed activity. If no activity is currently being viewed, or the specified index does not correspond to an activity in the list of activities, no change is made.
 
 Multiple activities can be assigned at once.
 
@@ -247,20 +460,8 @@ Format: `assign a/ACTIVITY_ID ...`
 Examples:
 
 * `assign 3 5`
-If viewing an activity with title 'Family trip', assigns the activities with IDs 3 and 5 as sub-activities of 'Family trip'. Otherwise does nothing.
-
-=== Update an activity as resolved: `close` (*v2.0 only*)
-
-Marks an activity as resolved, clearing (removing) the debts within from each contact and the aggregated debt on the main screen.
-
-Multiple activities can be resolved at once.
-
-Format: `close a/ACTIVITY_ID ...`
-
-Examples:
-
-* `close 3 4` +
-Marks the activities with activity ID 3 and 4 as resolved, updating the aggregated debt of their participants.
+If viewing an activity with title 'Family trip', assigns the activities with display indices 3 and 5 as sub-activities of 'Family trip', if the list of activities contain at least five activities.
+// end::futurecommands[]
 
 === Exiting the program : `exit`
 
@@ -271,3 +472,41 @@ Format: `exit`
 
 *Q*: How do I transfer my data to another computer? +
 *A*: Install the application on the other computer and overwrite the empty data file it creates with the data file contained in your current SplitWiser folder.
+
+// tag::poweruser[]
+== Powerusers
+
+Certain features are not included intentionally, as some of them may potentially result in undefined behavior.
+Hence, everything covered in this section is performed by *you* in the explicit knowledge that *something might break*!
+
+=== Force deleting expenses
+The default behavior for `disinvite` is to never allow permanant deletion for expenses.
+What you will see instead is that it is striked out in the UI.
+This is for good reason!
+It preserves accountability and transparency.
+
+You can however forcibly delete an expense by editing the `data/activitybook.json` file if you so incline.
+Before anything, find out the `ID` of the expense that you wish to remove (this is different from the `#` index shown on the right of the GUI).
+Ensure the application is closed, then find the activity in question in the `json`, and edit the `expenses` field as you wish.
+
+After restarting you will see that the expense is permanantly removed from the activity.
+The debts will have been recalculated as though it was never there.
+
+CAUTION: Deleting an expense does not care about the existing debts caused by that expense!
+
+=== Force disinvite from activity
+
+[quote, User Guide on the disinvite command]
+____
+If a contact is involved in an expense, he/she cannot be removed.
+____
+
+To forcibly remove a contact from an activity, you will have to edit `data/activitybook.json`.
+Before anything, find out the `ID` of the person that you wish to remove (this is different from the `#` index shown on the right of the GUI).
+You should also be extremely sure that the contact is not involved in any other activities or expenses.
+Ensure the application is closed, then find the activity in question in the `json`, and edit the `participants` field as you wish.
+
+After restarting you will see that the person is permanantly removed from the activity.
+
+CAUTION: This operation is very dangerous! The person might be included in expenses or other activities -- in that case, an error will be generated and the application will reset.
+// end::poweruser[]

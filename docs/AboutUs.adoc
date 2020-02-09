@@ -4,48 +4,47 @@
 :imagesDir: images
 :stylesDir: stylesheets
 
-Splitwiser is developed by https://github.com/orgs/AY1920S1-CS2103T-W11-2/teams/developers[Vortex] team, based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
+SplitWiser is developed by https://github.com/orgs/AY1920S1-CS2103T-W11-2/teams/developers[Vortex] team, based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
 
 == Project Team
 
 === Lim Daekoon
-image::daekoon.png[width="150", align="left"]
-{empty}[https://github.com/daekoon[github]]
+image::daekoon.jpg[width="150", align="left"]
+{empty}[https://github.com/daekoon[github]][https://ay1920s1-cs2103t-w11-2.github.io/main/team/daekoon[Project Portfolio page]]
 
-Role: Project Advisor
+Role: Project Advisor, Agile Coach
 
 '''
 
 === Lee Liak Ghee
-image::liakify.png[width="150", align="left"]
-{empty}[https://github.com/liakify[github]]
+image::liakify.jpg[width="150", align="left"]
+{empty}[https://github.com/liakify[github]][https://ay1920s1-cs2103t-w11-2.github.io/main/team/liakify.html[Project Portfolio page]]
 
-Role: Team Lead +
-Responsibilities: UI
+Role: Developer +
 
 '''
 
 === Keven Loo
 image::aulud.png[width="150", align="left"]
-{empty}[https://github.com/Aulud[github]]
+{empty}[https://github.com/Aulud[GitHub]][https://ay1920s1-cs2103t-w11-2.github.io/main/team/aulud.html[Project Portfolio page]]
 
 Role: Developer +
-Responsibilities: Data
+Responsibilities: UI
 
 '''
 
 === Xiaodong Jia
 image::podocarp.png[width="150", align="left"]
-{empty}[https://github.com/podocarp[github]]
+{empty}[https://github.com/podocarp[github]][https://ay1920s1-cs2103t-w11-2.github.io/main/team/podocarp.html[Project Portfolio page]]
 
 Role: Developer +
 Responsibilities: Dev Ops + Threading
 
 '''
 
-=== John Ng
+=== John Ng Zheng Jie
 image::johnnzj.png[width="150", align="left"]
-{empty}[https://github.com/johnnzj[github]]
+{empty}[https://github.com/johnnzj[github]][https://ay1920s1-cs2103t-w11-2.github.io/main/team/johnnzj.html[Project Portfolio page]]
 
 Role: Developer +
 Responsibilities: UI

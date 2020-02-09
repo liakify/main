@@ -9,8 +9,11 @@ toc::[]
 ifdef::env-github,env-browser[:relfileprefix: docs/]
 
 image:https://travis-ci.org/AY1920S1-CS2103T-W11-2/main.svg?branch=master["Build Status", link="https://travis-ci.org/AY1920S1-CS2103T-W11-2/main"]
-
+image:https://coveralls.io/repos/github/AY1920S1-CS2103T-W11-2/main/badge.svg?branch=master["Coverage Status"), link="https://coveralls.io/github/AY1920S1-CS2103T-W11-2/main?branch=master"]
+image:https://img.shields.io/github/commit-activity/w/AY1920S1-CS2103T-W11-2/main[GitHub commit activity]
+image:https://img.shields.io/github/v/tag/AY1920S1-CS2103T-W11-2/main[GitHub tag (latest by date)]
 ifdef::env-github[]
+
 image::docs/images/Ui.png[width="600"]
 endif::[]
 
@@ -45,6 +48,7 @@ everyone gets paid back, and everyone is happy.
 * Some parts of this sample application were inspired by the excellent http://code.makery.ch/library/javafx-8-tutorial/[Java FX tutorial] by
 _Marco Jakob_.
 * Libraries used: https://openjfx.io/[JavaFX], https://github.com/FasterXML/jackson[Jackson], https://github.com/junit-team/junit5[JUnit5]
+* SplitWiser is built on AddressBook-Level3 project created by https://se-education.org[SE-EDU] initiative.
 
 ## Licence
 link:LICENSE[MIT]
